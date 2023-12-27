@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# paper.py - arXiv.org article batch downloader.
+# paper.py - A command-line-based arXiv.org article browser and batch downloader.
 # Copyright (C) 2023 Soumendra Ganguly
 
 # This program is free software: you can redistribute it and/or modify
@@ -146,7 +146,7 @@ parser.add_argument("-i", "--id-list",
                     help="""this is the value of the "id_list"
 parameter of the "query" method of the arXiv API query interface""",
                     default="")
-parser.add_argument("-s", "--start",
+parser.add_argument("-S", "--start",
                     help="""this is the value of the "start"
 parameter of the "query" method of the arXiv API query interface""",
                     type=nonnegative_int, default=0)
@@ -189,7 +189,7 @@ parser.add_argument("-d", "--download",
 parser.add_argument("-D", "--output-dir",
                     help="""download the files to this directory""",
                     type=str, default=".")
-parser.add_argument("-r", "--download-range",
+parser.add_argument("-s", "--download-selection",
                     help="""a string of comma (,) separated terms of the form
 "k" or of the form "n-m", where k,n,m are positive
 integers with n < m; the article entries in the output
@@ -201,7 +201,7 @@ not specified
                     default=None)
 group = parser.add_mutually_exclusive_group()
 # --remove-non-pdf and --keep-non-pdf are mutually exclusive
-group.add_argument("-R", "--remove-non-pdf",
+group.add_argument("-r", "--remove-non-pdf",
                     help="""if a downloaded file is not a pdf (for example if
 the article was withdrawn and a placeholder html
 message mentioning the absence of the pdf is
@@ -308,7 +308,7 @@ Other links:
 """)
 
     if (args.download and
-        (not args.download_range or in_range(entry_index, args.download_range))):
+        (not args.download_selection or in_range(entry_index, args.download_selection))):
 
         # this will become a number if there are multiple pdfs
         # associated with the same entry
