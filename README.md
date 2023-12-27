@@ -1,5 +1,5 @@
 # paper.py
-A command-line-based arXiv.org article browser and batch downloader.
+A command-line-based [arXiv.org](https://arxiv.org/) article browser and batch downloader.
 ```sh
 $ paper.py --publish-years 2015-2019 'ti:"attention is all you need"'
 1/3
@@ -103,7 +103,7 @@ $ ls
    ```
 
 ## Help
-Run `paper.py -h` to get a list of fine-tuning options, usage examples, and relevant sources for arXiv.org search query construction.
+Run `paper.py -h` to get a list of fine-tuning options, usage examples, and relevant sources for [arXiv.org](https://arxiv.org/) search query construction.
 
 ## Basic usage examples
 Search for articles by author `Art I. Ficial`:
