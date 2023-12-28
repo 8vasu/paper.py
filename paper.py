@@ -188,10 +188,10 @@ parser.add_argument("-d", "--download",
                     action="store_const")
 parser.add_argument("-o", "--output-filename-template",
                     help="""template string to be used for naming downloaded
-pdf files: optionally containing {id}, {auth},
-{title}, {pub}, {updt} as placeholders for
-arXiv ID, author names, title, publish year,
-and update year respectively""",
+pdf files (excluding a .pdf suffix), optionally
+containing {id}, {auth}, {title}, {pub}, {updt}
+as placeholders for arXiv ID, author names, title,
+publish year, and update year respectively""",
                     type=str, default="{pub}-{auth}-{title}-{id}")
 parser.add_argument("-D", "--output-dir",
                     help="""download the files to this directory""",
