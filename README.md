@@ -1,50 +1,58 @@
 # paper.py
 A command-line-based [arXiv.org](https://arxiv.org/) article browser and batch downloader.
 ```sh
-$ paper.py --publish-years 2015-2019 'ti:"attention is all you need"'
-1/3
-----
+$ paper.py --publish-years 2015-2019 'ti:"attention is all you need"' | fold -w 80
+1
+-
 ID: 1706.03762v7
+Authors: ['Ashish Vaswani', 'Noam Shazeer', 'Niki Parmar', 'Jakob Uszkoreit', 'L
+lion Jones', 'Aidan N. Gomez', 'Lukasz Kaiser', 'Illia Polosukhin']
+Title: Attention Is All You Need
 Published: Mon Jun 12 2017 05:57:34PM UTC
 Updated: Wed Aug 02 2023 12:41:18AM UTC
-Authors: ['Ashish Vaswani', 'Noam Shazeer', 'Niki Parmar', 'Jakob Uszkoreit', 'Llion Jones', 'Aidan N. Gomez', 'Lukasz Kaiser', 'Illia Polosukhin']
-Slug: 2017-Ashish_Vaswani-Noam_Shazeer-Niki_Parmar-Jakob_Uszkoreit-Llion_Jones-Aidan_N_Gomez-Lukasz_Kaiser-Illia_Polosukhin-Attention_Is_All_You_Need
-Title: Attention Is All You Need
+Output file name: 2017-Ashish_Vaswani-Noam_Shazeer-Niki_Parmar-Jakob_Uszkoreit-L
+lion_Jones-Aidan_N_Gomez-Lukasz_Kaiser-Illia_Polosukhin-Attention_Is_All_You_Nee
+d-1706.03762v7.pdf
 PDF links:
 ['http://arxiv.org/pdf/1706.03762v7']
 Other links:
 ['http://arxiv.org/abs/1706.03762v7']
 
-2/3
-----
+2
+-
 ID: 1910.14537v3
+Authors: ['Sufeng Duan', 'Hai Zhao']
+Title: Attention Is All You Need for Chinese Word Segmentation
 Published: Thu Oct 31 2019 03:32:19PM UTC
 Updated: Tue Oct 06 2020 06:38:42AM UTC
-Authors: ['Sufeng Duan', 'Hai Zhao']
-Slug: 2019-Sufeng_Duan-Hai_Zhao-Attention_Is_All_You_Need_for_Chinese_Word_Segmentation
-Title: Attention Is All You Need for Chinese Word Segmentation
+Output file name: 2019-Sufeng_Duan-Hai_Zhao-Attention_Is_All_You_Need_for_Chines
+e_Word_Segmentation-1910.14537v3.pdf
 PDF links:
 ['http://arxiv.org/pdf/1910.14537v3']
 Other links:
 ['http://arxiv.org/abs/1910.14537v3']
 
-3/3
-----
+3
+-
 ID: 1906.02792v1
-Published: Thu Jun 06 2019 07:59:56PM UTC
-Updated: Thu Jun 06 2019 07:59:56PM UTC
 Authors: ['Manjot Bilkhu', 'Siyang Wang', 'Tushar Dobhal']
-Slug: 2019-Manjot_Bilkhu-Siyang_Wang-Tushar_Dobhal-Attention_is_all_you_need_for_Videos_Self_attention_based_Video_Summarization_using_Universal_Transformers
 Title: Attention is all you need for Videos: Self-attention based Video
   Summarization using Universal Transformers
+Published: Thu Jun 06 2019 07:59:56PM UTC
+Updated: Thu Jun 06 2019 07:59:56PM UTC
+Output file name: 2019-Manjot_Bilkhu-Siyang_Wang-Tushar_Dobhal-Attention_is_all_
+you_need_for_Videos_Self_attention_based_Video_Summarization_using_Universal_Tra
+nsformers-1906.02792v1.pdf
 PDF links:
 ['http://arxiv.org/pdf/1906.02792v1']
 Other links:
 ['http://arxiv.org/abs/1906.02792v1']
 
-$ paper.py --download -download-selection 1 --publish-years 2015-2019 'ti:"attention is all you need"' > /dev/null
-$ ls
-2017-Ashish_Vaswani-Noam_Shazeer-Niki_Parmar-Jakob_Uszkoreit-Llion_Jones-Aidan_N_Gomez-Lukasz_Kaiser-Illia_Polosukhin-Attention_Is_All_You_Need.pdf
+$ paper.py --download --download-selection 1 \
+> --publish-years 2015-2019 'ti:"attention is all you need"' >/dev/null
+$ ls | fold -w 80
+2017-Ashish_Vaswani-Noam_Shazeer-Niki_Parmar-Jakob_Uszkoreit-Llion_Jones-Aidan_N
+_Gomez-Lukasz_Kaiser-Illia_Polosukhin-Attention_Is_All_You_Need-1706.03762v7.pdf
 ```
 
 ## Setup

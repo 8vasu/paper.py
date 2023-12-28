@@ -153,7 +153,7 @@ parameter of the "query" method of the arXiv API query interface""",
 parser.add_argument("-m", "--max-results",
                     help="""this is the value of the "max_results"
 parameter of the "query" method of the arXiv API query interface""",
-                    type=nonnegative_int, default=500)
+                    type=nonnegative_int, default=50)
 parser.add_argument("-b", "--sort-by",
                     help="""this is the value of the "sortBy"
 parameter of the "query" method of the arXiv API query interface""",
@@ -161,7 +161,7 @@ parameter of the "query" method of the arXiv API query interface""",
                              "lastUpdatedDate",
                              "submittedDate"],
                     default="lastUpdatedDate")
-parser.add_argument("-o", "--sort-order",
+parser.add_argument("-O", "--sort-order",
                     help="""this is the value of the "sortOrder"
 parameter of the "query" method of the arXiv API query interface""",
                     choices=["ascending", "descending"],
@@ -186,6 +186,13 @@ parser.add_argument("-d", "--download",
                     help="download the pdf files",
                     const=True, default=False,
                     action="store_const")
+parser.add_argument("-o", "--output-filename-template",
+                    help="""template string to be used for naming downloaded
+pdf files: optionally containing {id}, {auth},
+{title}, {pub}, {updt} as placeholders for
+arXiv ID, author names, title, publish year,
+and update year respectively""",
+                    type=str, default="{pub}-{auth}-{title}-{id}")
 parser.add_argument("-D", "--output-dir",
                     help="""download the files to this directory""",
                     type=str, default=".")
@@ -269,26 +276,32 @@ for entry in entry_list:
             update_year = datetime.strptime(child.text,
                                             in_format).strftime("%Y")
 
-    if args.publish_years and not in_range(int(publish_year), args.publish_years):
+    if (args.publish_years and
+        not in_range(int(publish_year), args.publish_years)):
         continue
-    if args.update_years and not in_range(int(update_year), args.update_years):
+    if (args.update_years and
+        not in_range(int(update_year), args.update_years)):
         continue
 
     entry_index += 1
-    numbering = f"{entry_index}/{len(entry_list)}"
+    numbering = str(entry_index)
     print(numbering)
     print("-"*len(numbering))
 
     slugified_title = slugify(title)
     slugified_authors = "-".join([slugify(name) for name in authors])
-    slug = f"{publish_year}-{slugified_authors}-{slugified_title}"
+    slug = args.output_filename_template.format(id=id_,
+                                                auth=slugified_authors,
+                                                title=slugified_title,
+                                                pub=publish_year,
+                                                updt=update_year)
 
     print(f"""ID: {id_}
+Authors: {authors}
+Title: {title}
 Published: {publish_time}
 Updated: {update_time}
-Authors: {authors}
-Slug: {slug}
-Title: {title}""")
+Output file name: {slug}.pdf""")
 
     pdf_links = []
     other_links = []
@@ -308,15 +321,20 @@ Other links:
 """)
 
     if (args.download and
-        (not args.download_selection or in_range(entry_index, args.download_selection))):
+        (not args.download_selection or
+         in_range(entry_index, args.download_selection))):
 
-        # this will become a number if there are multiple pdfs
+        # add numerical suffix to filename if there are multiple pdfs
         # associated with the same entry
-        excess_index = ""
+        excess_index = 1
 
         for link in pdf_links:
             try:
-                local_file_path = f"{args.output_dir}/{slug}{excess_index}.pdf"
+                if excess_index > 1:
+                    local_file_path = (f"{args.output_dir}/"
+                                       f"{slug}--{excess_index}.pdf")
+                else:
+                    local_file_path = f"{args.output_dir}/{slug}.pdf"
                 urllib.request.urlretrieve(link, local_file_path)
             except urllib.error.HTTPError:
                 traceback.print_exc(file=sys.stderr)
@@ -326,7 +344,4 @@ Other links:
                              args.keep_non_pdf,
                              args.remove_non_pdf)
 
-            if excess_index == "":
-                excess_index = 2
-            else:
-                excess_index += 1
+            excess_index += 1
